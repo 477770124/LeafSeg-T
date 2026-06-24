@@ -6,7 +6,10 @@
 This repository contains the full source code of the LeafSeg-T framework, a high-precision leaf instance segmentation pipeline for industrial woody crops under natural field environments. Built upon an enhanced Swin Transformer backbone with synergistic attention mechanisms and cascaded instance decoding, LeafSeg-T enables accurate leaf segmentation, single-leaf phenotypic parameter extraction, disease lesion quantification, and non-destructive drought stress assessment via the proposed Leaf Drought Stress Index (LDSI).
 
 ---
+## Model Framework
+<img width="4001" height="2023" alt="4" src="https://github.com/user-attachments/assets/e9a1721c-b465-423b-82ad-03adce2863db" />
 
+---
 ##  Project Structure
 ```
 The project is organized to decouple model training from downstream phenotypic analysis:
@@ -62,8 +65,14 @@ python application/lida_lesion.py
 ```
 ## Key Innovations
 1.Edge-Aware Backbone: Customized Swin Transformer with window size M=8 and edge-aware position bias, which fine-grained captures leaf textures, veins and contour structures.
+
 2.Synergistic Attention Pipeline: SE channel attention for channel-wise feature selection before fusion, paired with CBAM spatial attention for spatial-wise foreground localization after fusion, effectively suppressing complex background interference.
+
 3.Cascaded Multi-Task Optimization: Progressive instance refinement via cascaded IoU thresholds, balancing detection, classification and mask accuracy for dense overlapping leaves.
 
 ## Data Availability
 The P-Leaf dataset used in this study is available from the corresponding author upon reasonable request.
+
+The P-Leaf dataset is publicly available on Zenodo:
+
+https://zenodo.org/records/19050796
