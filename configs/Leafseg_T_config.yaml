@@ -1,0 +1,66 @@
+MODEL:
+  META_ARCHITECTURE: "GeneralizedRCNN"
+  # 预训练权重路径 (对应论文使用 COCO 预训练权重初始化)
+  WEIGHTS: "weights/swin_tiny_patch4_window7_224.pth"
+
+  # -------------------- 骨干网络 (Edge-Aware Swin-T) --------------------
+  BACKBONE:
+    NAME: "build_leafseg_t_backbone"
+  SWIN:
+    WINDOW_SIZE: 8                 # 论文定制的窗口大小
+    OUT_CHANNELS: [96, 192, 384, 768]
+
+  # -------------------- 融合网络 (BiFPN + CBAM) --------------------
+  FPN:
+    IN_FEATURES: ["res2", "res3", "res4", "res5"]
+    OUT_CHANNELS: 256
+
+  # -------------------- 实例解码器 (Cascade Mask R-CNN) --------------------
+  ROI_HEADS:
+    NAME: "CascadeMaskRCNNHead"    # 我们刚才重构的检测头
+    NUM_CLASSES: 1                 # 类别数：1 (Poplar Leaf)
+    IN_FEATURES: ["p2", "p3", "p4", "p5"]
+    IOU_THRESHOLDS: [0.5, 0.6, 0.7] # 论文指定的递进式 IoU 阈值
+  ROI_BOX_HEAD:
+    NAME: "FastRCNNConvFCHead"
+    NUM_FC: 2
+    POOLER_RESOLUTION: 7
+  ROI_MASK_HEAD:
+    NAME: "MaskRCNNConvUpsampleHead"
+    NUM_CONV: 4
+    POOLER_RESOLUTION: 14
+
+DATASETS:
+  TRAIN: ("pleaf_train",)          # 训练集名称 (需要在代码中注册)
+  TEST: ("pleaf_val",)             # 验证集名称
+
+DATALOADER:
+  NUM_WORKERS: 4
+
+SOLVER:
+  # -------------------- 训练策略 --------------------
+  IMS_PER_BATCH: 4                 # 假设使用单张 RTX 4050 显卡
+  BASE_LR: 0.00025                 # 论文指定的初始学习率
+  MOMENTUM: 0.9                    # 论文指定的动量
+  WEIGHT_DECAY: 0.0001
+  MAX_ITER: 20000                  # 根据 40 个 Epoch 换算的迭代次数
+  STEPS: (12000, 16000)            # 学习率衰减节点
+  WARMUP_ITERS: 1000
+
+INPUT:
+  # -------------------- 数据处理与增强 --------------------
+  MIN_SIZE_TRAIN: (500,)           # 论文论证的最佳原生分辨率 530x500
+  MAX_SIZE_TRAIN: 530
+  MIN_SIZE_TEST: 500
+  MAX_SIZE_TEST: 530
+
+  # 数据增强：水平翻转 (50% 概率)
+  RANDOM_FLIP: "horizontal"
+
+  # 数据增强：随机裁剪
+  CROP:
+    ENABLED: True
+    TYPE: "relative_range"
+    SIZE: [0.02, 0.08]             # 论文指定的随机裁剪面积比例 [0.02, 0.08]
+
+VERSION: 2

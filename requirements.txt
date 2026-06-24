@@ -1,0 +1,26 @@
+# ---------------------------------------------------------
+# LeafSeg-T 环境依赖配置
+# ---------------------------------------------------------
+
+# 1. 核心深度学习框架
+# 注意：强烈建议用户根据自身 CUDA 版本前往 PyTorch 官网获取安装命令
+torch>=2.0.0
+torchvision>=0.15.0
+
+# 2. 计算机视觉与模型库
+# 包含骨干网络 timm 和图像处理库
+timm==0.9.12
+opencv-python>=4.8.0
+
+# 3. 数据处理与几何计算
+numpy>=1.24.0
+pandas>=2.0.0
+shapely>=2.0.1
+
+# 4. 可视化与图表生成
+matplotlib>=3.7.0
+
+# 5. Detectron2 框架 (特殊依赖)
+# 由于 Detectron2 无法直接通过常规的 pip install detectron2 稳定安装，
+# 建议通过官方 GitHub 源码链接进行安装：
+# git+https://github.com/facebookresearch/detectron2.git
