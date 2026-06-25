@@ -15,13 +15,13 @@ This repository contains the full source code of the LeafSeg-T framework, a high
 The project is organized to decouple model training from downstream phenotypic analysis:
 LeafSeg-T/
 ├── application/ # Downstream phenotypic analysis modules
-│ ├── compute_ldsi.py # LDSI drought stress index calculation (corresponds to Figure 17)
+│ ├── compute_ldsi.py # LDSI drought stress index calculation
 │ ├── lida_lesion.py # LIDA module: disease lesion visualization & quantification
 │ └── phenotype_ldsi.py# Morphological and spectral feature extraction pipeline
 ├── configs/ # Training hyperparameter configuration files
 ├── data/ # Dataset directory (P-Leaf dataset in COCO format)
 ├── models/ # Core model architecture modules
-│ ├── edge_aware_swin.py # Edge-aware Swin Transformer backbone (custom window size M=8)
+│ ├── edge_aware_swin.py # Edge-aware Swin Transformer backbone 
 │ ├── channel_se.py # Channel Attention Refinement (SE module)
 │ ├── bifpn.py # Bidirectional Weighted Feature Pyramid Network
 │ ├── spatial_cbam.py # Spatial Attention Refinement (CBAM spatial module)
