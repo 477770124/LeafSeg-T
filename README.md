@@ -27,7 +27,6 @@ LeafSeg-T/
 │ ├── spatial_cbam.py # Spatial Attention Refinement (CBAM spatial module)
 │ └── cascade_rcnn_head.py # Cascaded Mask R-CNN instance decoder
 ├── requirements.txt # Python environment dependencies
-├── train_net.py # Main entry for model training & evaluation
 └── README.md # Project documentation
 ```
 
